@@ -2,6 +2,7 @@ import { ShieldCheck, LayoutDashboard } from 'lucide-react';
 import { LogoutButton } from './Controls';
 import Greeting from './Greeting';
 import Avatar from './Avatar';
+import ThemeToggle from './ThemeToggle';
 import { BRAND } from '@/lib/brand';
 
 const NAV = { admin: 'Administration', staff: 'User management', user: 'My account' };
@@ -15,7 +16,7 @@ export default function Shell({ role, user, subtitle, actions, banner, children 
         <div className="me">
           <Avatar name={user.name} size={38} />
           <div className="me-text"><strong>{user.name}</strong><span className="role-pill dark">{role}</span></div>
-          <LogoutButton />
+          <div className="me-actions"><ThemeToggle /><LogoutButton /></div>
         </div>
       </aside>
       <main className="content">
