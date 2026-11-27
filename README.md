@@ -1,25 +1,5 @@
-# Login Authentication System
-
-Next.js (App Router) + Neon Postgres, built for Vercel.
-
-- **Roles:** admin, staff, user, each with its own dashboard (`/admin`, `/staff`, `/user`)
-- **Passwords:** `bcrypt(HMAC-SHA256(PEPPER, salt + password))` with a unique random salt per user; the pepper lives only in an environment variable
-- **2FA:** TOTP (Google Authenticator, Authy, 1Password…) set up on first sign-in
-- **Admins** add members, change roles, delete (to the Trash) and restore; **staff** can delete users
-- **Backups:** the **Backup** button, plus a daily Vercel Cron job, save a full snapshot into a `backups` table in your database (the newest 30 are kept)
-
-## Deploy
-
-1. Create a Neon Postgres database and copy its connection string. Tables are created automatically.
-2. Push this folder to GitHub and import it in Vercel.
-3. Add these environment variables in Vercel (see `.env.example`): `DATABASE_URL`, `PEPPER`, `JWT_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `CRON_SECRET`.
-4. Deploy, open the site, and sign in with the admin email and password. The admin is created on the first request.
-
-Local run: copy `.env.example` to `.env.local`, fill it in, then `npm install && npm run dev`.
-
-## Notes
-
-- **Never change `PEPPER`** after users exist, or every password stops working.
-- Backups are stored in the same database as the live data, so they protect against mistakes but not against losing the database itself.
-- Vercel’s free Hobby plan allows cron jobs once per day. The schedule is in `vercel.json`.
-- Five failed password or 2FA attempts lock an account for 15 minutes.
+# Login Authentication System (Next.js + Neon + Vercel)
+1. Push to GitHub, import into Vercel.
+2. Add a Neon Postgres database (Vercel > Storage) and a Vercel Blob store (Vercel > Storage).
+3. Set env vars from `.env.example` (DATABASE_URL, PEPPER, JWT_SECRET, ADMIN_EMAIL, CRON_SECRET). Blob token is added automatically.
+4. Deploy. Register with ADMIN_EMAIL to get the admin account. Tables are created automatically.

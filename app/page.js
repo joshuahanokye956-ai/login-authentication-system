@@ -1,9 +1,3 @@
 import { redirect } from 'next/navigation';
-import { currentUser, home } from '@/lib/session';
-
-export const dynamic = 'force-dynamic';
-
-export default async function Index() {
-  const u = await currentUser();
-  redirect(u ? home[u.role] : '/login');
-}
+import { session } from '@/lib/auth';
+export default async function Home() { const s = await session(); redirect(s ? '/' + (s.role === 'user' ? 'dashboard' : s.role) : '/login'); }

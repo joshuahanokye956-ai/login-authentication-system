@@ -1,32 +1,7 @@
-import { ShieldCheck, LayoutDashboard } from 'lucide-react';
-import { LogoutButton } from './Controls';
-import Greeting from './Greeting';
-import Avatar from './Avatar';
-import { BRAND } from '@/lib/brand';
-
-const NAV = { admin: 'Administration', staff: 'User management', user: 'My account' };
-
-export default function Shell({ role, user, subtitle, actions, banner, children }) {
-  return (
-    <div className="app" data-role={role}>
-      <aside className="sidebar">
-        <div className="brand"><span className="brand-mark"><ShieldCheck size={20} /></span><span>{BRAND.name}</span></div>
-        <nav className="nav" aria-label="Main"><a className="nav-item active" aria-current="page"><LayoutDashboard size={17} /> {NAV[role]}</a></nav>
-        <div className="me">
-          <Avatar name={user.name} size={38} />
-          <div className="me-text"><strong>{user.name}</strong><span className="role-pill dark">{role}</span></div>
-          <LogoutButton />
-        </div>
-      </aside>
-      <main className="content">
-        {banner || (
-          <div className="page-head fade">
-            <div><Greeting name={user.name} /><p className="sub">{subtitle}</p></div>
-            <div className="head-actions">{actions}</div>
-          </div>
-        )}
-        <div className="fade">{children}</div>
-      </main>
-    </div>
-  );
+'use client';
+import { useEffect, useState } from 'react';
+export const api = async (url, method = 'GET', body) => { const r = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: body && JSON.stringify(body) }); return r.json(); };
+export function useUsers() { const [u, setU] = useState([]); const load = async () => { const d = await api('/api/users'); setU(Array.isArray(d) ? d : []); }; useEffect(() => { load(); }, []); return [u, load]; }
+export function Shell({ title, children }) {
+  return (<main><div className="bar"><h1>{title}</h1><button className="grey" onClick={async () => { await api('/api/auth/logout', 'POST'); location.href = '/login'; }}>Log out</button></div>{children}</main>);
 }
