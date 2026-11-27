@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ShieldCheck, Smartphone, KeyRound, Users, ArrowLeft } from 'lucide-react';
 import { BRAND } from '@/lib/brand';
-import ThemeToggle from '@/components/ThemeToggle';
 
 const TITLE = { login: 'Welcome back', register: 'Create your account', verify: 'Two-factor check', setup: 'Set up two-factor' };
 const INTRO = {
@@ -55,7 +54,6 @@ export default function Login() {
         </ul>
       </aside>
       <section className="form-side">
-        <div className="corner"><ThemeToggle className="on-light" /></div>
         <div className="panel fade" key={mode}>
           <h1>{TITLE[mode]}</h1>
           <p className="sub">{INTRO[mode]}</p>
